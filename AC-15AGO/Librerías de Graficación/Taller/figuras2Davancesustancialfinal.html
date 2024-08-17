@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dibujo Dinámico</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #myCanvas {
+            border: 1px solid black;
+            margin-top: 20px;
+        }
+        .form-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dibujo Dinámico</h1>
+    <canvas id="myCanvas" width="600" height="400"></canvas>
+    <div class="form-container">
+        <form id="figureForm">
+            <label for="colorGrass">Color del Césped:</label>
+            <input type="color" id="colorGrass" value="#00FF00">
+            <br><br>
+            <label for="colorCarrot">Color de la Zanahoria:</label>
+            <input type="color" id="colorCarrot" value="#FFA500">
+            <br><br>
+            <label for="colorRabbit">Color del Conejo:</label>
+            <input type="color" id="colorRabbit" value="#FFFFFF">
+            <br><br>
+            <label for="coordsType">Tipo de Coordenadas:</label>
+            <select id="coordsType" onchange="updateCoordinatesInputs()">
+                <option value="cartesian">Cartesiana</option>
+                <option value="polar">Polar</option>
+            </select>
+            <br><br>
+            <div id="coordinates">
+                <!-- Las coordenadas se insertarán dinámicamente -->
+            </div>
+            <button type="button" onclick="drawScene()">Dibujar Escena</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
