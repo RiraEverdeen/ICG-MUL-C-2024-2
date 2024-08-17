@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figuras 2D</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Traza Imágenes 2D</h1>
+    
+    <form id="controls">
+        <label for="shape">Figura:</label>
+        <select id="shape">
+            <option value="circle">Círculo</option>
+            <option value="rectangle">Rectángulo</option>
+            <option value="triangle">Triángulo</option>
+            <option value="polygon">Polígono</option>
+            <option value="star">Estrella</option>
+        </select>
+        <br>
+        
+        <label for="coordSystem">Sistema de coordenadas:</label>
+        <select id="coordSystem">
+            <option value="cartesian">Cartesiano</option>
+            <option value="polar">Polar</option>
+        </select>
+        <br>
+        
+        <label for="x">X:</label>
+        <input type="number" id="x" placeholder="X en coordenadas cartesianas">
+        <br>
+        
+        <label for="y">Y:</label>
+        <input type="number" id="y" placeholder="Y en coordenadas cartesianas">
+        <br>
+        
+        <label for="radius">Radio:</label>
+        <input type="number" id="radius" placeholder="Radio (solo para círculo)">
+        <br>
+        
+        <label for="width">Ancho:</label>
+        <input type="number" id="width" placeholder="Ancho (solo para rectángulo)">
+        <br>
+        
+        <label for="height">Alto:</label>
+        <input type="number" id="height" placeholder="Alto (solo para rectángulo)">
+        <br>
+        
+        <label for="sides">Lados:</label>
+        <input type="number" id="sides" placeholder="Número de lados (solo para polígonos)">
+        <br>
+        
+        <label for="color">Color:</label>
+        <input type="color" id="color">
+        <br>
+        
+        <button type="button" onclick="drawShape()">Dibujar</button>
+    </form>
+    
+    <canvas id="canvas" width="600" height="400"></canvas>
+    
+    <script src="figuras2D.js"></script>
+</body>
+</html>
