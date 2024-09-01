@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto de Figuras 2D</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Proyecto de Figuras 2D</h1>
+
+    <!-- Controles para ingresar los datos del polígono -->
+    <div>
+        <label for="numLados">Número de lados:</label>
+        <input type="number" id="numLados" min="3" value="3">
+        
+        <label for="longitudLado">Longitud del lado:</label>
+        <input type="number" id="longitudLado" min="1" value="50">
+
+        <label for="colorBorde">Color del borde:</label>
+        <input type="color" id="colorBorde" value="#000000">
+
+        <label for="colorRelleno">Color de relleno:</label>
+        <input type="color" id="colorRelleno" value="#ff0000">
+
+        <label for="coordenadas">Coordenadas:</label>
+        <select id="coordenadas">
+            <option value="cartesianas">Cartesianas</option>
+            <option value="polares">Polares</option>
+        </select>
+
+        <!-- Campos para ingresar las coordenadas -->
+        <div id="coordenadasCartesianas">
+            <label for="coordX">X:</label>
+            <input type="number" id="coordX" value="0">
+
+            <label for="coordY">Y:</label>
+            <input type="number" id="coordY" value="0">
+        </div>
+
+        <div id="coordenadasPolares" style="display: none;">
+            <label for="radio">Radio:</label>
+            <input type="number" id="radio" value="0">
+
+            <label for="angulo">Ángulo (grados):</label>
+            <input type="number" id="angulo" value="0">
+        </div>
+    </div>
+
+    <canvas id="canvas" width="500" height="500"></canvas>
+
+    <script src="figuras2dentregafinal.js"></script>
+</body>
+</html>
+
