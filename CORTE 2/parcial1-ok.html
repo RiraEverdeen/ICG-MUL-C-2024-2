@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcial 1 - Figuras Poligonales</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        input[type="number"] {
+            width: 60px;
+        }
+
+        input[type="color"] {
+            margin-left: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+
+        #canvas {
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trazar Figuras Poligonales</h1>
+    
+    <label for="lados">Número de Lados:</label>
+    <input type="number" id="lados" min="3" value="5">
+    
+    <label for="lado">Longitud del Lado:</label>
+    <input type="number" id="lado" min="1" value="100">
+    
+    <label for="centroX">Centro X:</label>
+    <input type="number" id="centroX" value="200">
+    
+    <label for="centroY">Centro Y:</label>
+    <input type="number" id="centroY" value="200">
+    
+    <label for="colorBorde">Color del Borde:</label>
+    <input type="color" id="colorBorde" value="#000000">
+    
+    <label for="colorFondo">Color de Relleno:</label>
+    <input type="color" id="colorFondo" value="#00FF00">
+
+    <br><br>
+    <label>Tipo de Coordenadas:</label>
+    <input type="radio" name="coordenadas" value="cartesiano" checked> Cartesianas
+    <input type="radio" name="coordenadas" value="polar"> Polares
+
+    <br><br>
+    <label for="radio">Radio:</label>
+    <input type="number" id="radio" value="100">
+
+    <label for="angulo">Ángulo:</label>
+    <input type="number" id="angulo" value="45">
+
+    <br><br>
+    <button onclick="trazarPoligono()">Dibujar Polígono</button>
+    <button onclick="mostrarCentro()">Mostrar Centro</button>
+
+    <canvas id="canvas" width="500" height="500"></canvas>
+
+    <script src="parcial1-ok.js"></script>
+</body>
+</html>
