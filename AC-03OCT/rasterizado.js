@@ -1,71 +1,102 @@
-// Función para generar puntos aleatorios entre 3 y 20
-function generarPuntosAleatorios() {
-    const n = Math.floor(Math.random() * 18) + 3;  // Entre 3 y 20 puntos
+// Función para generar puntos aleatorios
+function generarPuntos(numPuntos) {
     const puntos = [];
-    for (let i = 0; i < n; i++) {
-        puntos.push({
-            x: Math.floor(Math.random() * 400) + 50,
-            y: Math.floor(Math.random() * 400) + 50
-        });
+    for (let i = 0; i < numPuntos; i++) {
+        // Se generan puntos con coordenadas aleatorias entre 0 y 500
+        puntos.push({ x: Math.random() * 500, y: Math.random() * 500 });
     }
     return puntos;
 }
 
-// Función para calcular el producto cruzado
-function productoCruzado(p1, p2, p3) {
-    return (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x);
+// Calcular el centroide
+function calcularCentroide(puntos) {
+    // Calcular el promedio de las coordenadas x e y
+    const xPromedio = puntos.reduce((sum, p) => sum + p.x, 0) / puntos.length;
+    const yPromedio = puntos.reduce((sum, p) => sum + p.y, 0) / puntos.length;
+    return { x: xPromedio, y: yPromedio };
 }
 
-// Función para determinar si la figura es convexa
-function esConvexa(puntos) {
-    let signoInicial = null;
-    for (let i = 0; i < puntos.length; i++) {
-        const p1 = puntos[i];
-        const p2 = puntos[(i + 1) % puntos.length];
-        const p3 = puntos[(i + 2) % puntos.length];
-        const cruzado = productoCruzado(p1, p2, p3);
-        const signo = Math.sign(cruzado);
-        if (signoInicial === null) {
-            signoInicial = signo;
-        } else if (signo !== signoInicial && signo !== 0) {
-            return false;
+// Calcular el ángulo respecto al centroide
+function angleFromCentroid(punto, centroide) {
+    return Math.atan2(punto.y - centroide.y, punto.x - centroide.x);
+}
+
+// Ordenar puntos en sentido antihorario
+function ordenarPuntos(puntos) {
+    const centroide = calcularCentroide(puntos); // Se calcula el centroide
+    // Se ordenan los puntos según el ángulo respecto al centroide
+    return puntos.sort((a, b) => angleFromCentroid(a, centroide) - angleFromCentroid(b, centroide));
+}
+
+// Calcular el producto cruzado
+function productoCruzado(o, a, b) {
+    return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
+}
+
+// Dibujar figura en el canvas y mostrar puntos
+function dibujarFigura(puntos) {
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar canvas
+    ctx.beginPath();
+    ctx.moveTo(puntos[0].x, puntos[0].y); // Comenzar a dibujar desde el primer punto
+
+    // Dibujar líneas entre los puntos
+    puntos.forEach(punto => {
+        ctx.lineTo(punto.x, punto.y);
+    });
+
+    ctx.closePath();
+    ctx.strokeStyle = 'blue'; // Color del borde
+    ctx.stroke(); // Dibujar la figura
+
+    // Dibujar cada punto como un círculo
+    ctx.fillStyle = 'red'; // Color de los puntos
+    puntos.forEach(punto => {
+        ctx.beginPath();
+        ctx.arc(punto.x, punto.y, 5, 0, 2 * Math.PI); // Dibujar círculo en cada punto
+        ctx.fill(); // Rellenar el círculo
+    });
+
+    const resultado = determinarConvexidad(puntos); // Determinar convexidad
+    ctx.fillStyle = resultado.includes("convexa") ? 'lightgreen' : 'lightcoral'; // Color de la figura
+    ctx.fill(); // Rellenar la figura
+
+    // Mostrar resultado en consola
+    console.log(determinarConvexidad(puntos));
+}
+
+// Determinar si la figura es convexa o cóncava
+function determinarConvexidad(puntos) {
+    const n = puntos.length;
+    let signoProducto = null;
+
+    for (let i = 0; i < n; i++) {
+        const o = puntos[i];
+        const a = puntos[(i + 1) % n];
+        const b = puntos[(i + 2) % n];
+        const cp = productoCruzado(o, a, b);
+
+        if (cp !== 0) {
+            if (signoProducto === null) {
+                signoProducto = cp > 0; // Se establece el signo del primer producto cruzado
+            } else if (signoProducto !== (cp > 0)) {
+                return "Los puntos no forman una figura convexa."; // Se determina que es cóncava
+            }
         }
     }
-    return true;
+    return "Los puntos forman una figura convexa."; // Se determina que es convexa
 }
 
-// Función para ordenar los puntos en sentido antihorario
-function ordenarPuntos(puntos) {
-    const centroide = {
-        x: puntos.reduce((sum, p) => sum + p.x, 0) / puntos.length,
-        y: puntos.reduce((sum, p) => sum + p.y, 0) / puntos.length
-    };
-    puntos.sort((a, b) => Math.atan2(a.y - centroide.y, a.x - centroide.x) - Math.atan2(b.y - centroide.y, b.x - centroide.x));
+// Función principal
+function main() {
+    const numPuntos = Math.floor(Math.random() * (20 - 3 + 1)) + 3; // Número aleatorio de puntos entre 3 y 20
+    const puntos = generarPuntos(numPuntos); // Generar puntos aleatorios
+    const puntosOrdenados = ordenarPuntos(puntos); // Ordenar puntos
+    dibujarFigura(puntosOrdenados); // Dibujar la figura
 }
 
-// Función para generar la figura y determinar si es convexa o cóncava
-function generarFiguraAleatoria() {
-    const canvas = document.getElementById('figura');
-    const ctx = canvas.getContext('2d');
-    const resultado = document.getElementById('resultado');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);  // Limpiar el canvas
+// Ejecutar la función principal
+main();
 
-    const puntos = generarPuntosAleatorios();
-    ordenarPuntos(puntos);
-
-    // Dibujar la figura en el canvas
-    ctx.beginPath();
-    ctx.moveTo(puntos[0].x, puntos[0].y);
-    for (let i = 1; i < puntos.length; i++) {
-        ctx.lineTo(puntos[i].x, puntos[i].y);
-    }
-    ctx.closePath();
-    ctx.stroke();
-
-    // Verificar si la figura es convexa o cóncava
-    if (esConvexa(puntos)) {
-        resultado.textContent = 'La figura es convexa.';
-    } else {
-        resultado.textContent = 'La figura es cóncava.';
-    }
-}
